@@ -9,7 +9,7 @@ import (
 var dockerCache = NewLRUCache(1000, 5*time.Minute)
 
 func inspectCachedContainer(id string) (*docker.Container, error) {
-	client, err := docker.NewClient("unix:///var/run/docker.sock")
+	client, err := docker.NewClient(*dockerAddr)
 	if err != nil {
 		log.Fatal(err)
 	}

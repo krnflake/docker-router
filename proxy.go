@@ -10,15 +10,17 @@ import (
 	"strings"
 )
 
-var templates = template.Must(template.ParseFiles("public/error.html"))
+var tmpl, _ = template.New("502").Parse(error_502)
 
 type Proxy struct {
 }
 
 func (proxy *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// check redis first
-	id := r.Header.Get("DockerID")
-	port := r.Header.Get("Port")
+	id, port, err := net.SplitHostPort(r.Header.Get("docker"))
+	if err != nil {
+		renderError(w, 502)
+		return
+	}
 
 	container, err := inspectCachedContainer(id)
 	if err != nil || container == nil {
@@ -92,5 +94,5 @@ func getHost(s string) string {
 
 func renderError(w http.ResponseWriter, code int) {
 	w.WriteHeader(code)
-	templates.Execute(w, nil)
+	tmpl.Execute(w, nil)
 }
