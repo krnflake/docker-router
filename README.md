@@ -24,8 +24,3 @@ server {
 }
 ```
 
-### License
->Copyright (C) krnflake - All Rights Reserved  
->Unauthorized copying of this file, via any medium is strictly prohibited  
->Proprietary and confidential  
->Written by krnflake <hello@krn.ovh>, October 2014
